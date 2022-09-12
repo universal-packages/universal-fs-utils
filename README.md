@@ -100,7 +100,7 @@ try {
 
 ## ensureFile()
 
-Checks and expand a path and tries to create an empty file if the check fails 
+Checks and expand a path and tries to create an empty file if the check fails
 
 ```js
 import { ensureFile } from '@universal-packages/fs-utils'
