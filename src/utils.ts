@@ -39,7 +39,7 @@ export function ensureDirectory(location: string): string {
     try {
       fs.mkdirSync(finalLocation, { recursive: true })
     } catch {
-      throw new Error(`Directory "${finalLocation}" is an invalid path or greater permisons are reaquired`)
+      throw new Error(`Directory "${finalLocation}" is an invalid path or greater permissions are reacquired`)
     }
   }
 
@@ -53,7 +53,7 @@ export function ensureFile(location: string): string {
   try {
     fs.closeSync(fs.openSync(finalLocation, 'a'))
   } catch {
-    throw new Error(`File location "${finalLocation}" is an invalid path or greater permisons are reaquired`)
+    throw new Error(`File location "${finalLocation}" is an invalid path or greater permissions are reacquired`)
   }
 
   return finalLocation
@@ -61,7 +61,7 @@ export function ensureFile(location: string): string {
 
 /** Tries to expand a path by resolving the tilde and resolving to an absolute path */
 export function expandPath(location: string): string {
-  const expanded = !IS_WINDOWS && HOME_DIR ? location.replace(/^~(?=$|\/|\\)/, HOME_DIR) : location
+  const expanded = location && !IS_WINDOWS && HOME_DIR ? location.replace(/^~(?=$|\/|\\)/, HOME_DIR) : location
 
-  return path.resolve(expanded)
+  return expanded ? path.resolve(expanded) : expanded
 }

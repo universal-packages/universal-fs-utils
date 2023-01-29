@@ -6,7 +6,7 @@ beforeAll((): void => {
 
 describe('ts-utils', (): void => {
   describe('checkDirectory', (): void => {
-    it('expands a path, checks for is existance, checks for it to be a directory and returns the final path', async (): Promise<void> => {
+    it('expands a path, checks for is existence, checks for it to be a directory and returns the final path', async (): Promise<void> => {
       const finalPath = checkDirectory('./src')
 
       expect(finalPath).toMatch(/^\/.*\/src$/)
@@ -22,7 +22,7 @@ describe('ts-utils', (): void => {
   })
 
   describe('checkFile', (): void => {
-    it('expands a path, checks for is existance, checks for it to be a file and returns the final path', async (): Promise<void> => {
+    it('expands a path, checks for is existence, checks for it to be a file and returns the final path', async (): Promise<void> => {
       const finalPath = checkFile('./README.md')
 
       expect(finalPath).toMatch(/^\/.*\/README.md$/)
@@ -47,7 +47,7 @@ describe('ts-utils', (): void => {
     })
 
     it('throws if the path is not valid because of various reasons', async (): Promise<void> => {
-      expect((): any => ensureDirectory('/new')).toThrow(/.* is an invalid path or greater permisons are reaquired/)
+      expect((): any => ensureDirectory('/new')).toThrow(/.* is an invalid path or greater permissions are reacquired/)
     })
   })
 
@@ -61,7 +61,14 @@ describe('ts-utils', (): void => {
     })
 
     it('throws if the path is not valid because of various reasons', async (): Promise<void> => {
-      expect((): any => ensureFile('/new.pdf')).toThrow(/.* is an invalid path or greater permisons are reaquired/)
+      expect((): any => ensureFile('/new.pdf')).toThrow(/.* is an invalid path or greater permissions are reacquired/)
+    })
+  })
+
+  describe('expandPath', (): void => {
+    it('tries to expand a path by resolving the tilde and resolving to an absolute path', async (): Promise<void> => {
+      expect(expandPath('~')).not.toMatch('~')
+      expect(expandPath(undefined)).toEqual(undefined)
     })
   })
 })

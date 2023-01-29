@@ -12,7 +12,9 @@ Extended functionality for fs, when you need to know something in disk exists or
 npm install @universal-packages/fs-utils
 ```
 
-## checkDirectory()
+## Global methods
+
+#### **`checkDirectory(location: String)`**
 
 Checks if a string is a valid path to a directory and expands it.
 
@@ -41,7 +43,7 @@ try {
 // > Error "/Users/david/project/src/fake" is not a directory or can not be accessed
 ```
 
-## checkFile()
+#### **`checkFile(location: String)`**
 
 Checks if a string is a valid path to a file and expands it.
 
@@ -70,7 +72,7 @@ try {
 // > Error "/Users/david/project/src/NOT.md" is not a file or can not be accessed
 ```
 
-## ensureDirectory()
+#### **`ensureDirectory(location: String)`**
 
 Checks and expand a path and tries to create the directory if the check fails.
 
@@ -98,7 +100,7 @@ try {
 // > Error Directory "/new" is an invalid path or greater permisons are reaquired
 ```
 
-## ensureFile()
+#### **`ensureFile(location: String)`**
 
 Checks and expand a path and tries to create an empty file if the check fails
 
@@ -126,7 +128,7 @@ try {
 // > Error File location "/file.rb" is an invalid path or greater permisons are reaquired
 ```
 
-## expandPath()
+#### **`expandPath(location: String)`**
 
 Tries to expand a path by resolving the tilde and resolving to an absolute path.
 
