@@ -5,7 +5,7 @@ beforeAll((): void => {
 })
 
 describe('ts-utils', (): void => {
-  describe('checkDirectory', (): void => {
+  describe(checkDirectory, (): void => {
     it('expands a path, checks for is existence, checks for it to be a directory and returns the final path', async (): Promise<void> => {
       const finalPath = checkDirectory('./src')
 
@@ -21,7 +21,7 @@ describe('ts-utils', (): void => {
     })
   })
 
-  describe('checkFile', (): void => {
+  describe(checkFile, (): void => {
     it('expands a path, checks for is existence, checks for it to be a file and returns the final path', async (): Promise<void> => {
       const finalPath = checkFile('./README.md')
 
@@ -37,7 +37,7 @@ describe('ts-utils', (): void => {
     })
   })
 
-  describe('ensureDirectory', (): void => {
+  describe(ensureDirectory, (): void => {
     it('creates a directory if it does not exists and returns the expanded path', async (): Promise<void> => {
       const finalPath = ensureDirectory('./tmp/deep/directory')
 
@@ -51,7 +51,7 @@ describe('ts-utils', (): void => {
     })
   })
 
-  describe('ensureFile', (): void => {
+  describe(ensureFile, (): void => {
     it('creates an empty file if it does not exists and returns the expanded path', async (): Promise<void> => {
       const finalPath = ensureFile('./tmp/deep/directory/file.pdf')
 
@@ -65,7 +65,7 @@ describe('ts-utils', (): void => {
     })
   })
 
-  describe('expandPath', (): void => {
+  describe(expandPath, (): void => {
     it('tries to expand a path by resolving the tilde and resolving to an absolute path', async (): Promise<void> => {
       expect(expandPath('~')).not.toMatch('~')
       expect(expandPath(undefined)).toEqual(undefined)
