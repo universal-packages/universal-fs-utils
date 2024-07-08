@@ -16,7 +16,7 @@ npm install @universal-packages/fs-utils
 
 #### **`checkDirectory(location: String)`**
 
-Checks if a string is a valid path to a directory and expands it.
+Checks if a string is a valid path to a directory and expands it. It throw verbose errors depending on why the directory is not valid.
 
 ```js
 import { checkDirectory } from '@universal-packages/fs-utils'
@@ -27,8 +27,6 @@ console.log(finalPath)
 
 // > /Users/david/project/src
 ```
-
-Any other case is thrown as an error.
 
 ```js
 import { checkDirectory } from '@universal-packages/fs-utils'
@@ -43,9 +41,23 @@ try {
 // > Error "/Users/david/project/src/fake" is not a directory or can not be accessed
 ```
 
+#### **`quickCheckDirectory(location: String)`**
+
+It does the same as `checkDirectory` but returns false if the directory is not valid instead of throwing an error.
+
+```js
+import { quickCheckDirectory } from '@universal-packages/fs-utils'
+
+const finalPath = quickCheckDirectory('./src/fake')
+
+console.log(finalPath)
+
+// > false
+```
+
 #### **`checkFile(location: String)`**
 
-Checks if a string is a valid path to a file and expands it.
+Checks if a string is a valid path to a file and expands it. It throw verbose errors depending on why the file is not valid.
 
 ```js
 import { checkFile } from '@universal-packages/fs-utils'
@@ -56,8 +68,6 @@ console.log(finalPath)
 
 // > /Users/david/project/src/README.md
 ```
-
-Any other case is thrown as an error.
 
 ```js
 import { checkFile } from '@universal-packages/fs-utils'
@@ -70,6 +80,20 @@ try {
 
 // > Error "/Users/david/project/src/NOT.md" does not exists
 // > Error "/Users/david/project/src/NOT.md" is not a file or can not be accessed
+```
+
+#### **`quickCheckFile(location: String)`**
+
+It does the same as `checkFile` but throw verbose errors depending on why the file is not valid.
+
+```js
+import { quickCheckFile } from '@universal-packages/fs-utils'
+
+const finalPath = quickCheckFile('./src/README.md')
+
+console.log(finalPath)
+
+// > /Users/david/project/src/README.md
 ```
 
 #### **`ensureDirectory(location: String)`**
@@ -97,7 +121,7 @@ try {
   console.log(error)
 }
 
-// > Error Directory "/new" is an invalid path or greater permisons are reaquired
+// > Error Directory "/new" is an invalid path or greater permissions are required
 ```
 
 #### **`ensureFile(location: String)`**
@@ -125,7 +149,7 @@ try {
   console.log(error)
 }
 
-// > Error File location "/file.rb" is an invalid path or greater permisons are reaquired
+// > Error File location "/file.rb" is an invalid path or greater permissions are required
 ```
 
 #### **`expandPath(location: String)`**

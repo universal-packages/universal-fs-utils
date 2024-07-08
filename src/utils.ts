@@ -5,7 +5,6 @@ import path from 'path'
 export const IS_WINDOWS = process.platform === 'win32'
 export const HOME_DIR = os.homedir()
 
-/** Checks if a string is a valid path to a directory and expands it */
 export function checkDirectory(location: string): string {
   const finalLocation = expandPath(location)
 
@@ -18,7 +17,16 @@ export function checkDirectory(location: string): string {
   return finalLocation
 }
 
-/** Checks if a string is a valid path to a file and expands it */
+export function quickCheckDirectory(location: string): string | false {
+  const finalLocation = expandPath(location)
+
+  if (!fs.existsSync(finalLocation) || !fs.lstatSync(finalLocation).isDirectory()) {
+    return false
+  }
+
+  return finalLocation
+}
+
 export function checkFile(location: string): string {
   const finalLocation = expandPath(location)
 
@@ -31,7 +39,16 @@ export function checkFile(location: string): string {
   return finalLocation
 }
 
-/** Checks and expand a path and tries to create the directory if the check fails */
+export function quickCheckFile(location: string): string | false {
+  const finalLocation = expandPath(location)
+
+  if (!fs.existsSync(finalLocation) || fs.lstatSync(finalLocation).isDirectory()) {
+    return false
+  }
+
+  return finalLocation
+}
+
 export function ensureDirectory(location: string): string {
   const finalLocation = expandPath(location)
 
@@ -46,7 +63,6 @@ export function ensureDirectory(location: string): string {
   return finalLocation
 }
 
-/** Checks and expand a path and tries to create an empty file if the check fails */
 export function ensureFile(location: string): string {
   const finalLocation = expandPath(location)
 
@@ -59,7 +75,6 @@ export function ensureFile(location: string): string {
   return finalLocation
 }
 
-/** Tries to expand a path by resolving the tilde and resolving to an absolute path */
 export function expandPath(location: string): string {
   const expanded = location && !IS_WINDOWS && HOME_DIR ? location.replace(/^~(?=$|\/|\\)/, HOME_DIR) : location
 

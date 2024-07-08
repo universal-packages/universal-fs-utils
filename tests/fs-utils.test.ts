@@ -1,4 +1,4 @@
-import { checkDirectory, checkFile, ensureDirectory, ensureFile, expandPath } from '../src'
+import { checkDirectory, checkFile, ensureDirectory, ensureFile, expandPath, quickCheckDirectory, quickCheckFile } from '../src'
 
 beforeAll((): void => {
   ensureDirectory('./tmp')
@@ -21,6 +21,22 @@ describe('ts-utils', (): void => {
     })
   })
 
+  describe(quickCheckDirectory, (): void => {
+    it('expands a path, checks for is existence, checks for it to be a directory and returns the final path', async (): Promise<void> => {
+      const finalPath = quickCheckDirectory('./src')
+
+      expect(finalPath).toMatch(/^\/.*\/src$/)
+    })
+
+    it('returns false if the location does not exists', async (): Promise<void> => {
+      expect(quickCheckDirectory('./fake')).toBeFalsy()
+    })
+
+    it('return false if the location does exists but is not a directory', async (): Promise<void> => {
+      expect(quickCheckDirectory('./README.md')).toBeFalsy()
+    })
+  })
+
   describe(checkFile, (): void => {
     it('expands a path, checks for is existence, checks for it to be a file and returns the final path', async (): Promise<void> => {
       const finalPath = checkFile('./README.md')
@@ -32,8 +48,24 @@ describe('ts-utils', (): void => {
       expect((): any => checkFile('./fake.md')).toThrow(/.* does not exist/)
     })
 
-    it('throws if the location does exists but is not a directory', async (): Promise<void> => {
+    it('throws if the location does exists but is a directory', async (): Promise<void> => {
       expect((): any => checkFile('./src')).toThrow(/.* is not a file or can not be accessed/)
+    })
+  })
+
+  describe(quickCheckFile, (): void => {
+    it('expands a path, checks for is existence, checks for it to be a file and returns the final path', async (): Promise<void> => {
+      const finalPath = quickCheckFile('./README.md')
+
+      expect(finalPath).toMatch(/^\/.*\/README.md$/)
+    })
+
+    it('return false if the location does not exists', async (): Promise<void> => {
+      expect(quickCheckFile('./fake.md')).toBeFalsy()
+    })
+
+    it('throws if the location does exists but is a directory', async (): Promise<void> => {
+      expect(quickCheckFile('./src')).toBeFalsy()
     })
   })
 
@@ -42,8 +74,8 @@ describe('ts-utils', (): void => {
       const finalPath = ensureDirectory('./tmp/deep/directory')
 
       expect(finalPath).toMatch(/^\/.*\/tmp\/deep\/directory$/)
-      expect(finalPath).toMatch(checkDirectory('./tmp/deep/directory'))
-      expect(ensureDirectory('./tmp/deep/directory')).toMatch(checkDirectory('./tmp/deep/directory'))
+      expect(finalPath).toMatch(checkDirectory('./tmp/deep/directory') as string)
+      expect(ensureDirectory('./tmp/deep/directory')).toMatch(checkDirectory('./tmp/deep/directory') as string)
     })
 
     it('throws if the path is not valid because of various reasons', async (): Promise<void> => {
@@ -56,8 +88,8 @@ describe('ts-utils', (): void => {
       const finalPath = ensureFile('./tmp/deep/directory/file.pdf')
 
       expect(finalPath).toMatch(/^\/.*\/tmp\/deep\/directory\/file.pdf$/)
-      expect(finalPath).toMatch(checkFile('./tmp/deep/directory/file.pdf'))
-      expect(ensureFile('./tmp/deep/directory/file.pdf')).toMatch(checkFile('./tmp/deep/directory/file.pdf'))
+      expect(finalPath).toMatch(checkFile('./tmp/deep/directory/file.pdf') as string)
+      expect(ensureFile('./tmp/deep/directory/file.pdf')).toMatch(checkFile('./tmp/deep/directory/file.pdf') as string)
     })
 
     it('throws if the path is not valid because of various reasons', async (): Promise<void> => {
